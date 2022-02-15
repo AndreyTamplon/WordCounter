@@ -6,6 +6,10 @@ import java.util.List;
 
 public class WriteInFile
 {
+    private WriteInFile()
+    {
+
+    }
     public static void writeInFile(StringBuilder outputFilePath, List<StringBuilder> data)
     {
         BufferedWriter writer = null;
@@ -19,14 +23,16 @@ public class WriteInFile
         } catch (IOException e)
         {
             System.err.println("Error while writing in file: " + e.getLocalizedMessage());
-        } finally
+        }
+        finally
         {
             if (null != writer)
             {
                 try
                 {
                     writer.close();
-                } catch (IOException e)
+                }
+                catch (IOException e)
                 {
                     e.printStackTrace(System.err);
                 }

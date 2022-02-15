@@ -2,9 +2,9 @@ import java.util.*;
 
 public class DataFormatter
 {
-    private TreeSet<AbstractMap.SimpleEntry<StringBuilder, Integer>> words;
+    private SortedSet<AbstractMap.SimpleEntry<StringBuilder, Integer>> words;
     private final int numberOfWords;
-    public DataFormatter(TreeSet<AbstractMap.SimpleEntry<StringBuilder, Integer>> words, int numberOfWords)
+    public DataFormatter(SortedSet<AbstractMap.SimpleEntry<StringBuilder, Integer>> words, int numberOfWords)
     {
         this.words = words;
         this.numberOfWords = numberOfWords;

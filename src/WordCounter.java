@@ -1,14 +1,10 @@
-import java.util.AbstractMap;
-import java.util.Comparator;
-import java.util.List;
-import java.util.TreeSet;
-import java.util.Objects;
+import java.util.*;
 
 public class WordCounter
 {
     private TreeSet<AbstractMap.SimpleEntry<StringBuilder, Integer>> words;
     private int numberOfWords = 0;
-    public void CountWords(List<StringBuilder> data)
+    public void countWords(List<StringBuilder> data)
     {
         Comparator<AbstractMap.SimpleEntry<StringBuilder, Integer>> comparator = Comparator.comparing(AbstractMap.SimpleEntry::getKey);
         words = new TreeSet<>(comparator);
@@ -42,7 +38,7 @@ public class WordCounter
         }
     }
 
-    public TreeSet<AbstractMap.SimpleEntry<StringBuilder, Integer>> getWords()
+    public SortedSet<AbstractMap.SimpleEntry<StringBuilder, Integer>> getWords()
     {
         return words;
     }
