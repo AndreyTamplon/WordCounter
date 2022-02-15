@@ -1,114 +1,55 @@
-import java.io.*;
+import java.util.AbstractMap;
 import java.util.Comparator;
-import java.util.Objects;
-import java.util.SortedSet;
+import java.util.List;
 import java.util.TreeSet;
+import java.util.Objects;
 
 public class WordCounter
 {
-
-    private final SortedSet<WordCountPair> dictionary;
-    private int number_of_words;
-
-    public WordCounter()
+    private TreeSet<AbstractMap.SimpleEntry<StringBuilder, Integer>> words;
+    private int numberOfWords = 0;
+    public void CountWords(List<StringBuilder> data)
     {
-        Comparator<WordCountPair> comparator = (left, right) -> {
-            if (left.getAmount_of_repeats() == right.getAmount_of_repeats() && left.getWord() != right.getWord())
-            {
-                return 1;
-            }
-            return left.getAmount_of_repeats() - right.getAmount_of_repeats();
-        };
-        dictionary = new TreeSet<>(comparator);
-        number_of_words = 0;
-    }
-
-    public void CountWords(StringBuilder inputFile, StringBuilder outputFile)
-    {
-        BufferedReader reader = null;
-        try
+        Comparator<AbstractMap.SimpleEntry<StringBuilder, Integer>> comparator = Comparator.comparing(AbstractMap.SimpleEntry::getKey);
+        words = new TreeSet<>(comparator);
+        for(StringBuilder line : data)
         {
-            reader = new BufferedReader(new InputStreamReader(new FileInputStream(String.valueOf(inputFile))));
-            String line;
-
-            while ((line = reader.readLine()) != null)
+            int wordBeginningIndex = -1;
+            for(int i = 0; i <= line.length(); ++i)
             {
-                parseLine(new StringBuilder(line));
-            }
-        } catch (IOException e)
-        {
-            System.err.println("Error while reading file: " + e.getLocalizedMessage());
-        } finally
-        {
-            if (null != reader)
-            {
-                try
+                if ((i == line.length() || !Character.isLetterOrDigit(line.charAt(i))) && wordBeginningIndex != -1)
                 {
-                    reader.close();
-                } catch (IOException e)
-                {
-                    e.printStackTrace(System.err);
-                }
-            }
-        }
-
-        BufferedWriter writer = null;
-        try
-        {
-            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(String.valueOf(outputFile))));
-            for(WordCountPair pair : dictionary)
-            {
-                writer.write(pair.getWord()
-                        + " " + pair.getAmount_of_repeats()
-                        + " " + String.format("%.3f", (double) pair.getAmount_of_repeats() * 100 / number_of_words) + "%\n");
-            }
-        } catch (IOException e)
-        {
-            System.err.println("Error while writing in file: " + e.getLocalizedMessage());
-        } finally
-        {
-            if (null != writer)
-            {
-                try
-                {
-                    writer.close();
-                } catch (IOException e)
-                {
-                    e.printStackTrace(System.err);
-                }
-            }
-        }
-    }
-
-    private void parseLine(StringBuilder line)
-    {
-        int beginning_of_word = -1;
-        for(int i = 0; i <= line.length(); ++i)
-        {
-            if ((i == line.length() || !Character.isLetterOrDigit(line.charAt(i))) && beginning_of_word != -1)
-            {
-                StringBuilder word = new StringBuilder(line.substring(beginning_of_word, i));
-                boolean word_exists = false;
-                for(WordCountPair pair : dictionary)
-                {
-                    if(Objects.equals(pair.getWord().toString(), word.toString()))
+                    StringBuilder newWord = new StringBuilder(line.substring(wordBeginningIndex, i));
+                    AbstractMap.SimpleEntry<StringBuilder, Integer> newPair = new AbstractMap.SimpleEntry<>(newWord, 1);
+                    AbstractMap.SimpleEntry<StringBuilder, Integer> foundedPair = words.ceiling(newPair);
+                    if (foundedPair != null && Objects.equals(foundedPair.getKey().toString(), newPair.getKey().toString()))
                     {
-                        pair.increaseAmount_of_repeats();
-                        word_exists = true;
+                        foundedPair.setValue(foundedPair.getValue() + 1);
                     }
+                    else
+                    {
+                        words.add(newPair);
+                    }
+
+                    wordBeginningIndex = -1;
+                    numberOfWords += 1;
                 }
-                if (!word_exists)
+                else if(wordBeginningIndex == -1 && i != line.length() && Character.isLetterOrDigit(line.charAt(i)))
                 {
-                    dictionary.add(new WordCountPair(word));
+                    wordBeginningIndex = i;
                 }
-                beginning_of_word = -1;
-                number_of_words += 1;
-            }
-            else if(beginning_of_word == -1 && i != line.length() && Character.isLetterOrDigit(line.charAt(i)))
-            {
-                beginning_of_word = i;
             }
         }
     }
-}
 
+    public TreeSet<AbstractMap.SimpleEntry<StringBuilder, Integer>> getWords()
+    {
+        return words;
+    }
+
+    public int getNumberOfWords()
+    {
+        return numberOfWords;
+    }
+
+}
