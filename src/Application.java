@@ -4,9 +4,9 @@ public class Application
     {
         WordCounter wordCounter = new WordCounter();
         wordCounter.countWords(
-                ReadFile.readFile (new StringBuilder("C:\\Users\\andre\\IdeaProjects\\WordCounter\\src\\in.txt")));
-        DataFormatter dataFormatter = new DataFormatter(wordCounter.getWords(), wordCounter.getNumberOfWords());
-        WriteInFile.writeInFile(
-                new StringBuilder("C:\\Users\\andre\\IdeaProjects\\WordCounter\\src\\out.txt"), dataFormatter.formatWords());
+                FileReciter.readFile ("C:\\Users\\andre\\IdeaProjects\\WordCounter\\src\\in.txt"));
+        DataFormatter dataFormatter = new DataFormatter(wordCounter.getWordFrequencyCollection(), wordCounter.getNumberOfWords());
+        FilePenman.writeInFile(
+                "C:\\Users\\andre\\IdeaProjects\\WordCounter\\src\\out.txt", dataFormatter.formatWordFrequencyCollection());
     }
 }

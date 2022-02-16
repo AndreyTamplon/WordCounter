@@ -2,41 +2,41 @@ import java.util.*;
 
 public class DataFormatter
 {
-    private SortedSet<AbstractMap.SimpleEntry<StringBuilder, Integer>> words;
+    private SortedSet<AbstractMap.SimpleEntry<String, Integer>> wordFrequencyCollection;
     private final int numberOfWords;
-    public DataFormatter(SortedSet<AbstractMap.SimpleEntry<StringBuilder, Integer>> words, int numberOfWords)
+    public DataFormatter(SortedSet<AbstractMap.SimpleEntry<String, Integer>> wordFrequencyCollection, int numberOfWords)
     {
-        this.words = words;
+        this.wordFrequencyCollection = wordFrequencyCollection;
         this.numberOfWords = numberOfWords;
     }
     private void sortSet()
     {
-        Comparator<AbstractMap.SimpleEntry<StringBuilder, Integer>> comparator = (left, right) ->
+        Comparator<AbstractMap.SimpleEntry<String, Integer>> comparator = (left, right) ->
         {
-            if (Objects.equals(left.getValue(), right.getValue()) && left.getKey() != right.getKey())
+            if (Objects.equals(left.getValue(), right.getValue()) && !Objects.equals(left.getKey(), right.getKey()))
             {
                 return 1;
             }
             return right.getValue() - left.getValue();
         };
-        TreeSet<AbstractMap.SimpleEntry<StringBuilder, Integer>> sortedWords = new TreeSet<>(comparator);
-        sortedWords.addAll(words);
-        words = sortedWords;
+        TreeSet<AbstractMap.SimpleEntry<String, Integer>> sortedWords = new TreeSet<>(comparator);
+        sortedWords.addAll(wordFrequencyCollection);
+        wordFrequencyCollection = sortedWords;
     }
 
-    private List<StringBuilder> convertToCSV()
+    private List<String> convertToCSV()
     {
-        List<StringBuilder> wordsInCSV = new LinkedList<>();
-        for(AbstractMap.SimpleEntry<StringBuilder, Integer> pair : words)
+        List<String> wordFrequencyCollectionInCSV = new LinkedList<>();
+        for(AbstractMap.SimpleEntry<String, Integer> pair : wordFrequencyCollection)
         {
-            wordsInCSV.add(new StringBuilder (pair.getKey()
+            wordFrequencyCollectionInCSV.add(pair.getKey()
                     + " " + pair.getValue()
-                    + " " + String.format("%.3f", (double) pair.getValue() * 100 / numberOfWords) + "%\n"));
+                    + " " + String.format("%.3f", (double) pair.getValue() * 100 / numberOfWords) + "%\n");
         }
-        return wordsInCSV;
+        return wordFrequencyCollectionInCSV;
     }
 
-    public List<StringBuilder> formatWords()
+    public List<String> formatWordFrequencyCollection()
     {
         sortSet();
         return convertToCSV();

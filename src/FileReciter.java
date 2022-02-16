@@ -6,23 +6,23 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ReadFile
+public class FileReciter
 {
-    private ReadFile()
+    private FileReciter()
     {
 
     }
-    public static List<StringBuilder> readFile(StringBuilder inputFilePath)
+    public static List<String> readFile(String inputFilePath)
     {
-        List<StringBuilder> data = new LinkedList<>();
+        List<String> data = new LinkedList<>();
         BufferedReader reader = null;
         try
         {
-            reader = new BufferedReader(new InputStreamReader(new FileInputStream(String.valueOf(inputFilePath))));
+            reader = new BufferedReader(new InputStreamReader(new FileInputStream(inputFilePath)));
             String line;
             while ((line = reader.readLine()) != null)
             {
-                data.add(new StringBuilder(line));
+                data.add(line);
             }
             return data;
         } catch (IOException e)

@@ -4,19 +4,19 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.List;
 
-public class WriteInFile
+public class FilePenman
 {
-    private WriteInFile()
+    private FilePenman()
     {
 
     }
-    public static void writeInFile(StringBuilder outputFilePath, List<StringBuilder> data)
+    public static void writeInFile(String outputFilePath, List<String> data)
     {
         BufferedWriter writer = null;
         try
         {
-            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(String.valueOf(outputFilePath))));
-            for(StringBuilder elem : data)
+            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFilePath)));
+            for(String elem : data)
             {
                 writer.write(String.valueOf(elem));
             }
