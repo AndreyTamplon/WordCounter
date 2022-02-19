@@ -10,13 +10,13 @@ public class FilePenman
     {
 
     }
-    public static void writeInFile(String outputFilePath, List<String> data)
+    public static void writeInFile(String outputFilePath, List<String> formattedOutput)
     {
         BufferedWriter writer = null;
         try
         {
             writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFilePath)));
-            for(String elem : data)
+            for(String elem : formattedOutput)
             {
                 writer.write(String.valueOf(elem));
             }

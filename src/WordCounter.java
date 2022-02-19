@@ -2,18 +2,18 @@ import java.util.*;
 
 public class WordCounter
 {
-    private TreeSet<AbstractMap.SimpleEntry<String, Integer>> wordFrequencyCollection;
+    private TreeSet<AbstractMap.SimpleEntry<String, Integer>> wordPairSet;
     private int numberOfWords = 0;
     public WordCounter()
     {
         Comparator<AbstractMap.SimpleEntry<String, Integer>> comparator = Comparator.comparing(AbstractMap.SimpleEntry::getKey);
-        wordFrequencyCollection = new TreeSet<>(comparator);
+        wordPairSet = new TreeSet<>(comparator);
     }
 
-    private List<String> parseText(List<String> data)
+    private List<String> parseText(List<String> text)
     {
         List<String> wordList = new LinkedList<>();
-        for(String line : data)
+        for(String line : text)
         {
             int wordBeginningIndex = -1;
             for(int i = 0; i <= line.length(); ++i)
@@ -36,32 +36,32 @@ public class WordCounter
     private void addWord(String word)
     {
         AbstractMap.SimpleEntry<String, Integer> newPair = new AbstractMap.SimpleEntry<>(word, 1);
-        AbstractMap.SimpleEntry<String, Integer> foundedPair = wordFrequencyCollection.ceiling(newPair);
+        AbstractMap.SimpleEntry<String, Integer> foundedPair = wordPairSet.ceiling(newPair);
         if (foundedPair != null && Objects.equals(foundedPair.getKey(), newPair.getKey()))
         {
             foundedPair.setValue(foundedPair.getValue() + 1);
         }
         else
         {
-            wordFrequencyCollection.add(newPair);
+            wordPairSet.add(newPair);
         }
 
         numberOfWords += 1;
 
     }
 
-    public void countWords(List<String> data)
+    public void countWords(List<String> text)
     {
-        List<String> wordList = parseText(data);
+        List<String> wordList = parseText(text);
         for (String word : wordList)
         {
             addWord(word);
         }
     }
 
-    public SortedSet<AbstractMap.SimpleEntry<String, Integer>> getWordFrequencyCollection()
+    public SortedSet<AbstractMap.SimpleEntry<String, Integer>> getWordPairSet()
     {
-        return wordFrequencyCollection;
+        return wordPairSet;
     }
 
     public int getNumberOfWords()

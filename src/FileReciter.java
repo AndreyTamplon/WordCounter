@@ -14,7 +14,7 @@ public class FileReciter
     }
     public static List<String> readFile(String inputFilePath)
     {
-        List<String> data = new LinkedList<>();
+        List<String> text = new LinkedList<>();
         BufferedReader reader = null;
         try
         {
@@ -22,9 +22,9 @@ public class FileReciter
             String line;
             while ((line = reader.readLine()) != null)
             {
-                data.add(line);
+                text.add(line);
             }
-            return data;
+            return text;
         } catch (IOException e)
         {
             System.err.println("Error while reading file: " + e.getLocalizedMessage());
