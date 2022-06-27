@@ -10,7 +10,3 @@ Takes as an argument the name of a text file, and outputs a CSV file with column
 Program command line arguments:
 
 > word_count.exe input.txt output.csv
-
-* 
-
-
